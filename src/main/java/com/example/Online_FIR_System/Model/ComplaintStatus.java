@@ -11,6 +11,7 @@ import jakarta.persistence.Table;
 @Table(name = "complaint_status")
 public class ComplaintStatus {
 
+    // This class represents the status of a complaint
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
