@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Home - JusticeNet</title>
+    <link
+            rel="icon"
+            href="https://cdn-icons-png.freepik.com/512/10275/10275817.png"
+            type="image/x-icon"
+    />
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+    }
+    .container {
+        width: 80%;
+        margin: auto;
+        overflow: hidden;
+    }
+    .header {
+        background: #333;
+        color: #fff;
+        padding-top: 30px;
+        min-height: 70px;
+        border-bottom: #77aaff 3px solid;
+    }
+    .header h1 {
+        text-align: center;
+        text-transform: uppercase;
+        margin: 0;
+        font-size: 24px;
+    }
+    .admin-links {
+        background: #333;
+        color: #fff;
+        padding-top: 30px;
+        min-height: 70px;
+        border-bottom: #77aaff 3px solid;
+    }
+    .admin-links ul {
+        list-style: none;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+    }
+    .admin-links ul li {
+        margin: 0 10px;
+    }
+    .admin-links ul li a {
+        color: #fff;
+        text-decoration: none;
+    }
+    .admin-links ul li a:hover {
+        color: #77aaff;
+    }
+
+</style>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>Admin Dashboard</h1>
+        <h1><a th:href="@{/}">JusticeNet</a></h1>
+    </div>
+    <div class="admin-links">
+        <ul>
+            <li><a th:href="@{/admin/officers}">Officers</a></li>
+            <li><a th:href="@{/admin/fir}">FIRs</a></li>
+            <li><a th:href="@{/admin/user}">Users</a></li>
+            <li><a th:href="@{/admin/reports}">Reports</a></li>
+            <li><a th:href="@{/logout}">Logout</a></li>
+        </ul>
+    </div>
+</div>
+</body>
+</html>
+

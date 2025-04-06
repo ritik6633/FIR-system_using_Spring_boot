@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complaint Summary</title>
+    <link
+            rel="icon"
+            href="https://cdn-icons-png.freepik.com/512/10275/10275817.png"
+            type="image/x-icon"
+        />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            max-width: 600px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+        }
+        
+        h3{
+        	color : #009933;
+        }
+        .complaint-summary {
+            margin: 20px 0;
+            text-align: left;
+        }
+
+        .complaint-summary p {
+            font-size: 1em;
+            color: #666;
+        }
+
+        .btn-group {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            color: #fff;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .home-btn {
+            background-color: #007bff;
+        }
+
+        .home-btn:hover {
+            background-color: #0056b3;
+        }
+
+        .print-btn {
+            background-color: #28a745;
+        }
+
+        .print-btn:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Complaint Summary</h1>
+        <h3>FIR Lodge with following Details : </h3>
+        <div class="complaint-summary">
+            <p><strong>Complaint ID :</strong> <span th:text="${savedComplaint.Id}">12345</span></p>
+            <p><strong>Complainant Name :</strong> <span th:text="${savedComplaint.complainantName}">Name</span></p>
+            <p><strong>Complainant Number :</strong> <span th:text="${savedComplaint.complainantPhone}">Phone Number</span></p>
+            <p><strong>State :</strong> <span th:text="${savedComplaint.state}">State</span></p>
+            <p><strong>District :</strong> <span th:text="${savedComplaint.district}">District</span></p>
+            <p><strong>Police Station :</strong> <span th:text="${savedComplaint.policeStation}">Police Station Name</span></p>
+            <p><strong>Details :</strong> <span th:text="${savedComplaint.details}">Name</span></p>
+        </div>
+        <div class="btn-group">
+            <button class="btn home-btn" onclick="window.location.href='/'">Go Back to Home</button>
+            <button class="btn print-btn" onclick="window.print()">Print Complaint Details</button>
+        </div>
+    </div>
+
+    <script>
+        // Additional JavaScript if needed
+    </script>
+</body>
+</html>

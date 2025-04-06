@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JusticeNet - Add Complaint</title>
+    <link
+            rel="icon"
+            href="https://cdn-icons-png.freepik.com/512/10275/10275817.png"
+            type="image/x-icon"
+        />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #b3ffff;
+            background-image  : url("https://www.bhmpics.com/downloads/police-wallpaper-backgrounds-/39.nice-looking-simple-abstract-blurred-colorful-wallpaper-police-lights-black-background-motion-effect-abstract-110711953.jpg");
+            background-size : cover;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #0000ff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            opacity : 80%;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 2em;
+            color: #fff;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        .form-group select,
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .form-group button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            background-color: #ff0000;
+            color: #fff;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .form-group button:hover {
+            background-color: #006600;
+        }
+
+        .success-message {
+            color: #5cb85c;
+            margin-top: 10px;
+        }
+        a{
+        		text-decoration : none;
+        		color  : #e60000;
+        }
+        a:hover{
+		text-decoration: underline;
+	}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Add Complaint</h1>
+            <h1><a th:href="@{/}">JusticeNet</a></h1>
+        </div>
+        <form id="addComplaintForm" method="post" action="/add-complaint">
+            <div class="form-group">
+                <label for="state">State</label>
+                <select id="state" name="state" required>
+                    <option value="">Select State</option>
+                    <option value="Bihar">Bihar</option>
+                    <option value="Andhra Pradesh">Andhra Pradesh</option>
+                    <!-- Add other states here -->
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="district">District</label>
+                <select id="district" name="district" required>
+                    <option value="">Select District</option>
+                    <!-- Districts will be populated here dynamically -->
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="policeStation">Police Station</label>
+                <select id="policeStation" name="policeStation" required>
+                    <option value="">Select Police Station</option>
+                    <!-- Police stations will be populated here dynamically -->
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="complaintType">Complaint Type</label>
+                <select id="complaintType" name="complaintType" required>
+                    <option value="">Select Complaint Type</option>
+                    <option value="Theft">Theft</option>
+                    <option value="Fraud">Fraud</option>
+                    <option value="Domestic Violence">Domestic Violence</option>
+                    <option value="Cyber Crime">Cyber Crime</option>
+                    <option value="Extortion">Extortion</option>
+                    <option value="Kidnapping">Kidnapping</option>
+                    <option value="Murder">Murder</option>
+                    <option value="Others">Others</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="details">Details</label>
+                <textarea id="details" name="details" rows="4" required></textarea>
+                <button type="button" id="startRecording" style="width: 40%; margin-left: 30%">🎙️ Speak</button>
+                <button type="button" id="stopRecording" style="display:none;width: 40%;margin-left: 30%;">Stop</button>
+            </div>
+            <div class="form-group">
+                <label for="complainantName">Complainant Name</label>
+                <input type="text" id="complainantName" name="complainantName" required>
+            </div>
+            <div class="form-group">
+                <label for="complainantPhone">Complainant Phone</label>
+                <input type="tel" id="complainantPhone" name="complainantPhone" pattern="[0-9]{10}" required>
+            </div>
+            <div class="form-group">
+                <button type="submit">Submit Complaint</button>
+            </div>
+            <div id="success-message" class="success-message" th:text="${successMessage}"></div>
+        </form>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const stateSelect = document.getElementById('state');
+            const districtSelect = document.getElementById('district');
+            const policeStationSelect = document.getElementById('policeStation');
+
+            const districtOptions = {
+                'Bihar': ['Patna', 'Gaya', 'Bhagalpur'], // Add districts for Bihar
+                'Andhra Pradesh': ['Vijayawada', 'Visakhapatnam', 'Guntur'] // Add districts for Andhra Pradesh
+                // Add other states and their districts here
+            };
+
+            const policeStationOptions = {
+                'Patna': ['Patliputra', 'Kankarbagh', 'Gandhi Maidan'], // Add police stations for Patna
+                'Gaya': ['Civil Lines', 'Rampur', 'Magadh Medical College'], // Add police stations for Gaya
+                'Bhagalpur': ['Kotwali', 'Tilka Manjhi', 'Jogsar'], // Add police stations for Bhagalpur
+                'Vijayawada': ['Governorpet', 'Patamata', 'Suryaraopeta'], // Add police stations for Vijayawada
+                'Visakhapatnam': ['MVP Colony', 'Dwaraka Nagar', 'Gajuwaka'], // Add police stations for Visakhapatnam
+                'Guntur': ['Arundelpet', 'Kothapeta', 'Nallapadu'] // Add police stations for Guntur
+                // Add other districts and their police stations here
+            };
+
+            stateSelect.addEventListener('change', function() {
+                const selectedState = stateSelect.value;
+                districtSelect.innerHTML = '<option value="">Select District</option>';
+                policeStationSelect.innerHTML = '<option value="">Select Police Station</option>';
+
+                if (selectedState && districtOptions[selectedState]) {
+                    districtOptions[selectedState].forEach(district => {
+                        const option = document.createElement('option');
+                        option.value = district;
+                        option.textContent = district;
+                        districtSelect.appendChild(option);
+                    });
+                }
+            });
+
+            districtSelect.addEventListener('change', function() {
+                const selectedDistrict = districtSelect.value;
+                policeStationSelect.innerHTML = '<option value="">Select Police Station</option>';
+
+                if (selectedDistrict && policeStationOptions[selectedDistrict]) {
+                    policeStationOptions[selectedDistrict].forEach(policeStation => {
+                        const option = document.createElement('option');
+                        option.value = policeStation;
+                        option.textContent = policeStation;
+                        policeStationSelect.appendChild(option);
+                    });
+                }
+            });
+        });
+
+
+
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const startBtn = document.getElementById("startRecording");
+            const stopBtn = document.getElementById("stopRecording");
+            const incidentDesc = document.getElementById("details");
+
+            let recognition;
+
+            if ('webkitSpeechRecognition' in window) {
+                recognition = new webkitSpeechRecognition(); // Or SpeechRecognition
+                recognition.continuous = true; // Keep recording until manually stopped
+                recognition.interimResults = false; // Process only final results
+                recognition.lang = 'en-US'; // Set language
+            } else {
+                alert("Your browser does not support Speech Recognition API.");
+            }
+
+            startBtn.addEventListener("click", () => {
+                if (recognition) {
+                    recognition.start();
+                    startBtn.style.display = "none";
+                    stopBtn.style.display = "inline";
+                }
+            });
+
+            stopBtn.addEventListener("click", () => {
+                if (recognition) {
+                    recognition.stop();
+                    startBtn.style.display = "inline";
+                    stopBtn.style.display = "none";
+                }
+            });
+
+            // Process results from the Speech API
+            if (recognition) {
+                recognition.onresult = (event) => {
+                    const transcript = Array.from(event.results)
+                        .map(result => result[0].transcript)
+                        .join(' ');
+                    incidentDesc.value += transcript;
+                };
+
+                recognition.onerror = (event) => {
+                    console.error("Speech recognition error:", event.error);
+                };
+            }
+        });
+
+    </script>
+</body>
+</html>

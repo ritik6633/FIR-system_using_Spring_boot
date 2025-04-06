@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complaint Report</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+<h2 style="text-align: center;">Complaint Report</h2>
+<div style="width: 80%; margin: auto;">
+    <canvas id="complaintChart"></canvas>
+</div>
+
+<script th:inline="javascript">
+    document.addEventListener('DOMContentLoaded', () => {
+        // Fetch the complaints data passed from the controller
+        const complaints = /*[[${complaints}]]*/ {};
+
+        // Extract keys (types) and values (counts) for the graph
+        const labels = Object.keys(complaints); // Complaint types
+        const data = Object.values(complaints); // Complaint counts
+
+        // Render the bar graph using Chart.js
+        const ctx = document.getElementById('complaintChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Number of Complaints',
+                    data: data,
+                    backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top'
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Number of Complaints'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Complaint Types'
+                        }
+                    }
+                }
+            }
+        });
+    });
+</script>
+</body>
+</html>

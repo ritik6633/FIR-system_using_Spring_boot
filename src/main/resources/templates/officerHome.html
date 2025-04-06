@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Officer Home</title>
+    <link
+            rel="icon"
+            href="https://cdn-icons-png.freepik.com/512/10275/10275817.png"
+            type="image/x-icon"
+        />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 90%;
+            margin: 50px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        .action-btn {
+            padding: 8px 16px;
+            margin: 5px;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .accept-btn {
+            background-color: #4CAF50;
+        }
+        .reject-btn {
+            background-color: #f44336;
+        }
+        button {
+            padding: 10px 20px;
+            color: #fff;
+            background-color: #4CAF50;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 10px 0;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .back-btn {
+            background-color: #007BFF;
+        }
+        .back-btn:hover {
+            background-color: #0069D9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Complaints</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>FIR ID</th>
+                    <th>Complaint Date</th>
+                    <th>Complaint Time</th>
+                    <th>State</th>
+                    <th>District</th>
+                    <th>Police Station</th>
+                    <th>Details</th>
+                    <th>Complainant Name</th>
+                    <th>Complainant Phone</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                    <th>Remarks</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="complaint : ${complaints}">
+                    <td th:text="${complaint.id}">1</td>
+                    <td th:text="${complaint.getDate().toString().substring(0,10)}">Complaint Date</td>
+                    <td th:text="${complaint.getDate().toString().substring(11,19)}">Complaint Time</td>
+                    <td th:text="${complaint.state}">State</td>
+                    <td th:text="${complaint.district}">District</td>
+                    <td th:text="${complaint.policeStation}">Police Station</td>
+                    <td th:text="${complaint.details}">Details</td>
+                    <td th:text="${complaint.complainantName}">Complainant Name</td>
+                    <td th:text="${complaint.complainantPhone}">Complainant Phone</td>
+                    <td th:text="${complaint.status}">Pending</td>
+                    <td>
+                        <form th:action="@{/acceptComplaint}" method="post" style="display: inline;">
+                            <input type="hidden" name="complaintId" th:value="${complaint.id}" />
+                            <button type="submit" class="action-btn accept-btn">Accept</button>
+                        </form>
+                        <form th:action="@{/rejectComplaint}" method="post" style="display: inline;">
+                            <input type="hidden" name="complaintId" th:value="${complaint.id}" />
+                            <button type="submit" class="action-btn reject-btn">Reject</button>
+                        </form>
+<!--                        <form th:action="@{/culpritArrested}" method="post" style="display: inline;">-->
+<!--                            <input type="hidden" name="complaintId" th:value="${complaint.id}" />-->
+<!--                            <button type="submit" class="action-btn complete-btn">Arrested</button>-->
+<!--                        </form>-->
+                    </td>
+                    <td>
+                        <form th:action="@{/addRemarks}" method="post">
+                            <input type="hidden" name="complaintId" th:value="${complaint.id}" />
+                            <input type="text" name="remarks" placeholder="Remarks" />
+                            <button type="submit" class="action-btn">Add</button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <form th:action="@{/}" method="get" style="text-align: center;">
+            <button type="submit" class="back-btn">Back to Home</button>
+        </form>
+    </div>
+</body>
+</html>

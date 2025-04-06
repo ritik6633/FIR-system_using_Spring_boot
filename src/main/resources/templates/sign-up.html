@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JusticeNet - Signup</title>
+    <link
+            rel="icon"
+            href="https://cdn-icons-png.freepik.com/512/10275/10275817.png"
+            type="image/x-icon"
+        />
+    <style>
+        /* Add your existing CSS styles here */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #b3ffff;
+            background-image: url("https://www.bhmpics.com/downloads/police-wallpaper-backgrounds-/30.law-enforcement-police-abstract-background.jpg");
+            background-size: cover;
+        }
+
+        .signup-container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #ffbf80;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .signup-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .signup-header h1 {
+            margin: 0;
+            font-size: 2em;
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .form-group button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            background-color: #000033;
+            color: #fff;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .form-group button:hover {
+            background-color: #00004d;
+        }
+
+        .error-message {
+            color: #d9534f;
+            margin-top: 10px;
+        }
+
+        .link-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .link-container p {
+            margin: 0;
+        }
+
+        .link-container a {
+            color: #000000;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .link-container a:hover {
+            text-decoration: underline;
+        }
+
+        .tab {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .tab button {
+            background-color: #f1f1f1;
+            border: none;
+            outline: none;
+            padding: 14px 20px;
+            cursor: pointer;
+            font-size: 17px;
+            transition: 0.3s;
+        }
+
+        .tab button.active {
+            background-color: #006699;
+        }
+
+        .signup-form {
+            display: none;
+        }
+
+        .signup-form.active {
+            display: block;
+        }
+        a{
+        	text-decoration : none;
+        }
+        a:hover{
+		text-decoration: underline;
+	}
+    </style>
+</head>
+<body>
+    <div class="signup-container">
+        <div class="signup-header">
+            <h1>Sign Up for <a th:href="@{/}">JusticeNet</a></h1>
+        </div>
+        <div class="tab">
+            <button class="tablinks active" onclick="openSignupForm(event, 'client')">User's Signup</button>
+            <button class="tablinks" onclick="openSignupForm(event, 'officer')">Officer's Signup</button>
+        </div>
+        <div id="client" class="signup-form active">
+            <form action="/signup/client" method="post">
+                <div class="form-group">
+                    <label for="clientName">Name:</label>
+                    <input type="text" id="clientName" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="clientPhone">Phone:</label>
+                    <input type="tel" id="clientPhone" name="phone" required>
+                </div>
+                <div class="form-group">
+                    <label for="clientAddress">Address:</label>
+                    <textarea id="clientAddress" name="address" rows="4" cols="50"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="clientUsername">Username:</label>
+                    <input type="text" id="clientUsername" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="clientPassword">Password:</label>
+                    <input type="password" id="clientPassword" name="password" required>
+                </div>
+                <div class="form-group">
+                    <button type="submit">Sign Up</button>
+                </div>
+                <div class="error-message"><!-- Error messages will appear here --></div>
+            </form>
+        </div>
+        <div id="officer" class="signup-form">
+            <form action="/signup/officer" method="post">
+                <div class="form-group">
+                    <label for="officerServiceNumber">Service Number:</label>
+                    <input type="text" id="officerServiceNumber" name="serviceNumber" required>
+                </div>
+                <div class="form-group">
+                    <label for="officerName">Name:</label>
+                    <input type="text" id="officerName" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="officerEmail">Email:</label>
+                    <input type="email" id="officerEmail" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="officerPhone">Phone:</label>
+                    <input type="tel" id="officerPhone" name="phone" required>
+                </div>
+                <div class="form-group">
+                    <label for="officerState">State:</label>
+                    <select id="officerState" name="state" required>
+                        <option value="">Select State</option>
+                        <option value="Bihar">Bihar</option>
+                        <option value="Andhra Pradesh">Andhra Pradesh</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="officerDistrict">District:</label>
+                    <select id="officerDistrict" name="district" required>
+                        <option value="">Select District</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="officerCity">City:</label>
+                    <select id="officerCity" name="city" required>
+                        <option value="">Select City</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="officerPoliceStation">Police Station Name:</label>
+                    <select id="officerPoliceStation" name="policeStationName" required>
+                        <option value="">Select Police Station</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="officerUsername">Username:</label>
+                    <input type="text" id="officerUsername" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="officerPassword">Password:</label>
+                    <input type="password" id="officerPassword" name="password" required>
+                </div>
+                <div class="form-group">
+                    <button type="submit">Sign Up</button>
+                </div>
+                <div class="error-message"><!-- Error messages will appear here --></div>
+            </form>
+        </div>
+        <div class="link-container">
+            <p>Already have an account? <a th:href="@{/login}">Login here</a>.</p>
+        </div>
+    </div>
+    <script>
+        function openSignupForm(evt, formType) {
+            var i, form, tablinks;
+            form = document.getElementsByClassName("signup-form");
+            for (i = 0; i < form.length; i++) {
+                form[i].classList.remove("active");
+            }
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].classList.remove("active");
+            }
+            document.getElementById(formType).classList.add("active");
+            evt.currentTarget.classList.add("active");
+        }
+
+        // Initial setup to show the client form by default
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('client').classList.add("active");
+
+            const stateSelect = document.getElementById('officerState');
+            const districtSelect = document.getElementById('officerDistrict');
+            const citySelect = document.getElementById('officerCity');
+            const policeStationSelect = document.getElementById('officerPoliceStation');
+
+            const data = {
+                "Bihar": {
+                    "Patna": ['Patliputra', 'Kankarbagh', 'Gandhi Maidan'],
+                    "Gaya": ['Civil Lines', 'Rampur', 'Magadh Medical College'],
+                    "Bhagalpur" : ['Kotwali', 'Tilka Manjhi', 'Jogsar']
+                },
+                "Andhra Pradesh": {
+                    "Vishakhapatnam": ['MVP Colony', 'Dwaraka Nagar', 'Gajuwaka'],
+                    "Vijayawada": ['Governorpet', 'Patamata', 'Suryaraopeta'],
+                    "Guntur" : ['Arundelpet', 'Kothapeta', 'Nallapadu']
+                }
+            };
+
+            stateSelect.addEventListener('change', function() {
+                const selectedState = stateSelect.value;
+                districtSelect.innerHTML = '<option value="">Select District</option>';
+                citySelect.innerHTML = '<option value="">Select City</option>';
+                policeStationSelect.innerHTML = '<option value="">Select Police Station</option>';
+                if (selectedState) {
+                    for (const district in data[selectedState]) {
+                        districtSelect.innerHTML += `<option value="${district}">${district}</option>`;
+                    }
+                }
+            });
+
+            districtSelect.addEventListener('change', function() {
+                const selectedState = stateSelect.value;
+                const selectedDistrict = districtSelect.value;
+                citySelect.innerHTML = '<option value="">Select City</option>';
+                policeStationSelect.innerHTML = '<option value="">Select Police Station</option>';
+                if (selectedDistrict) {
+                    const cities = data[selectedState][selectedDistrict];
+                    cities.forEach(city => {
+                        citySelect.innerHTML += `<option value="${city}">${city}</option>`;
+                    });
+                }
+            });
+
+            citySelect.addEventListener('change', function() {
+                const selectedCity = citySelect.value;
+                policeStationSelect.innerHTML = '<option value="">Select Police Station</option>';
+                if (selectedCity) {
+                    policeStationSelect.innerHTML += `<option value="${selectedCity}">${selectedCity} PS</option>`;
+                }
+            });
+        });
+    </script>
+</body>
+</html>

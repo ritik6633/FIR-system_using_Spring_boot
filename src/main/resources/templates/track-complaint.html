@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Track Complaint</title>
+    <link
+            rel="icon"
+            href="https://cdn-icons-png.freepik.com/512/10275/10275817.png"
+            type="image/x-icon"
+        />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 80%;
+            margin: 50px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        input[type="text"] {
+            padding: 10px;
+            margin: 10px 0;
+            width: 300px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            padding: 10px 20px;
+            color: #fff;
+            background-color: #4CAF50;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 10px 0;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .back-btn {
+            background-color: #007BFF;
+        }
+        .back-btn:hover {
+            background-color: #0069D9;
+        }
+        .message {
+            text-align: center;
+            margin-top: 20px;
+            color: #d9534f; /* Bootstrap danger color */
+        }
+        .status {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .status-accepted {
+            color: #5cb85c; /* Bootstrap success color */
+        }
+        .status-rejected {
+            color: #d9534f; /* Bootstrap danger color */
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Track Your Complaint</h1>
+    <form th:action="@{/trackComplaint}" method="post">
+        <input type="text" name="complaintId" placeholder="Enter your Complaint ID" required />
+        <button type="submit">Track</button>
+    </form>
+    <form th:action="@{/}" method="get" style="text-align: center;">
+        <button type="submit" class="back-btn">Back to Home</button>
+    </form>
+
+    <div class="message" th:if="${errorMessage}" th:text="${errorMessage}"></div>
+    <div class="status" th:if="${statusMessage}" th:text="${statusMessage}"
+         th:classappend="${statusMessage == 'The status of your complaint is: Rejected'} ? 'status-rejected' : 'status-accepted'"></div>
+    <div class="message" th:if="${remarks}" th:text="${remarks}"></div>
+
+    <h2>---------------------------------------- FIR DETAILS ---------------------------------------</h2>
+
+    <h3 th:text="'Officer Assigned : '+${officerAssigned}"></h3>
+
+    <div th:if="${fir_details != null}">
+        <p th:if="${fir_details.id}" th:text="'FIR ID: ' + ${fir_details.id}"></p>
+        <p th:if="${fir_details.getDate()}" th:text="'Complaint Date: ' + ${fir_details.getDate().toString().substring(0,10)}"></p>
+        <p th:if="${fir_details.getDate()}" th:text="'Complaint Time: ' + ${fir_details.getDate().toString().substring(11,19)}"></p>
+        <p th:if="${fir_details.state}" th:text="'State: ' + ${fir_details.state}"></p>
+        <p th:if="${fir_details.district}" th:text="'District: ' + ${fir_details.district}"></p>
+        <p th:if="${fir_details.policeStation}" th:text="'Police Station: ' + ${fir_details.policeStation}"></p>
+    </div>
+</div>
+</body>
+</html>

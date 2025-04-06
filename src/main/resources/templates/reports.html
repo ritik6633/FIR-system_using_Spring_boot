@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Officer Report - JusticeNet</title>
+    <link
+            rel="icon"
+            href="https://cdn-icons-png.freepik.com/512/10275/10275817.png"
+            type="image/x-icon"
+    />
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+    }
+    .container {
+        width: 80%;
+        margin: auto;
+        overflow: hidden;
+    }
+    .header {
+        background: #333;
+        color: #fff;
+        padding-top: 30px;
+        min-height: 70px;
+        border-bottom: #77aaff 3px solid;
+    }
+    .header h1 {
+        text-align: center;
+        text-transform: uppercase;
+        margin: 0;
+        font-size: 24px;
+    }
+    .form-container {
+        background: #fff;
+        padding: 20px;
+        margin-top: 20px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    .form-group {
+        margin-bottom: 15px;
+    }
+    .form-group label {
+        display: block;
+        margin-bottom: 5px;
+    }
+    .form-group select, .form-group button {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+    .form-group button {
+        background: #333;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+    }
+    .form-group button:hover {
+        background: #555;
+    }
+</style>
+<body>
+<div class="header">
+    <div class="container">
+        <h1>Officer Report</h1>
+    </div>
+</div>
+<div class="container">
+    <div class="form-container">
+        <form action="/generateReport" method="post">
+            <div class="form-group">
+                <label for="state">State:</label>
+                <select id="state" name="state" required>
+                    <option value="All">-- ALL --</option>
+                    <option value="Bihar">Bihar</option>
+                    <option value="Andhra Pradesh">Andhra Pradesh</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="district">District:</label>
+                <select id="district" name="district" required>
+                    <option value="All">-- ALL --</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="policeStation">Police Station:</label>
+                <select id="policeStation" name="policeStation" required>
+                    <option value="All">-- ALL --</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <button type="submit">Generate Report</button>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const stateSelect = document.getElementById('state');
+        const districtSelect = document.getElementById('district');
+        const policeStationSelect = document.getElementById('policeStation');
+
+        const data = {
+            "Bihar": {
+                "Patna": ['Patliputra PS', 'Kankarbagh PS', 'Gandhi Maidan PS'],
+                "Gaya": ['Civil Lines PS', 'Rampur PS', 'Magadh Medical College PS'],
+                "Bhagalpur": ['Kotwali PS', 'Tilka Manjhi PS', 'Jogsar PS']
+            },
+            "Andhra Pradesh": {
+                "Vishakhapatnam": ['MVP Colony PS', 'Dwaraka Nagar PS', 'Gajuwaka PS'],
+                "Vijayawada": ['Governorpet PS', 'Patamata PS', 'Suryaraopeta PS'],
+                "Guntur": ['Arundelpet PS', 'Kothapeta PS', 'Nallapadu PS']
+            }
+        };
+
+        // Populate District Dropdown
+        stateSelect.addEventListener('change', function() {
+            const selectedState = stateSelect.value;
+            districtSelect.innerHTML = '<option value="All">-- ALL --</option>';
+            policeStationSelect.innerHTML = '<option value="All">-- ALL --</option>';
+            if (selectedState && selectedState !== 'All') {
+                for (const district in data[selectedState]) {
+                    districtSelect.innerHTML += `<option value="${district}">${district}</option>`;
+                }
+            }
+        });
+
+        // Populate Police Station Dropdown
+        districtSelect.addEventListener('change', function() {
+            const selectedState = stateSelect.value;
+            const selectedDistrict = districtSelect.value;
+            policeStationSelect.innerHTML = '<option value="All">-- ALL --</option>';
+            if (selectedDistrict && selectedDistrict !== 'All') {
+                const policeStations = data[selectedState][selectedDistrict];
+                policeStations.forEach(ps => {
+                    policeStationSelect.innerHTML += `<option value="${ps}">${ps}</option>`;
+                });
+            }
+        });
+    });
+</script>
+</html>

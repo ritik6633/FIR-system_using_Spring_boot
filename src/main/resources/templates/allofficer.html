@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Admin</title>
+    <link
+            rel="icon"
+            href="https://cdn-icons-png.freepik.com/512/10275/10275817.png"
+            type="image/x-icon"
+        />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 80%;
+            margin: 50px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        .action-btn {
+            padding: 8px 16px;
+            margin: 5px;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .accept-btn {
+            background-color: #4CAF50;
+        }
+        .reject-btn {
+            background-color: #f44336;
+        }
+        button {
+            padding: 10px 20px;
+            color: #fff;
+            background-color: #4CAF50;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 10px 0;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .back-btn {
+            background-color: #007BFF;
+        }
+        .back-btn:hover {
+            background-color: #0069D9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Officers</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Serial No.</th>
+                    <th>Service Number</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>State</th>
+                    <th>District</th>
+                    <th>City</th>
+                    <th>Police Station Name</th>
+<!--                    <th>Username</th>-->
+<!--                    <th>Password</th>-->
+                </tr>
+            </thead>
+            <tbody>
+            <tr th:each="officer, iterStat : ${officers}">
+                    <td th:text="${iterStat.count}">1</td>
+                    <td th:text="${officer.ServiceNumber}">Service Number</td>
+                    <td th:text="${officer.Name}">Name</td>
+                    <td th:text="${officer.email}">Email</td>
+                    <td th:text="${officer.phone}">Phone Number</td>
+                    <td th:text="${officer.state}">State</td>
+                    <td th:text="${officer.dist}">District</td>
+                    <td th:text="${officer.city}">City</td>
+                    <td th:text="${officer.policeStation}">Police Station</td>
+<!--                    <td th:text="${officer.username}">Username</td>-->
+<!--                    <td th:text="${officer.password}">Password</td>-->
+                    
+                </tr>
+            </tbody>
+        </table>
+        <form th:action="@{/admin/dashboard}" method="get" style="text-align: center;">
+            <button type="submit" class="back-btn">Back to Home</button>
+        </form>
+    </div>
+</body>
+</html>
